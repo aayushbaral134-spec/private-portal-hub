@@ -19,18 +19,18 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <header className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Private Portal Hub</h1>
+    <div className="container mx-auto p-4 sm:p-6 lg:p-8">
+      <header className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+        <h1 className="text-3xl font-bold text-center sm:text-left">Private Portal Hub</h1>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">{user?.email}</span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">{user?.email}</span>
           <ThemeToggle />
           <Button onClick={handleLogout} variant="outline">Logout</Button>
         </div>
       </header>
       <main>
         <Tabs defaultValue="links" className="w-full">
-          <TabsList>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
             <TabsTrigger value="links">Links</TabsTrigger>
             <TabsTrigger value="documents">Documents</TabsTrigger>
             <TabsTrigger value="memos">Memos</TabsTrigger>

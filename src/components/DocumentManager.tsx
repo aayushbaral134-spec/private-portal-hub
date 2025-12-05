@@ -129,6 +129,11 @@ const DocumentManager = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > 50 * 1024 * 1024) { // 50 MB limit
+        showError("File size cannot exceed 50 MB.");
+        event.target.value = ''; // Reset file input
+        return;
+      }
       const toastId = showLoading("Uploading document...");
       uploadMutation.mutate(file, {
         onSuccess: () => dismissToast(toastId),
