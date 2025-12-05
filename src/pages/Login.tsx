@@ -24,17 +24,11 @@ const Login = () => {
             supabaseClient={supabase}
             appearance={{
               theme: ThemeSupa,
-              className: {
-                anchor: 'hidden',
-              },
             }}
             providers={[]}
             theme="light"
             view="sign_in"
           />
-          <p className="text-center text-sm text-gray-600 mt-4">
-            To create an account, please contact the owner.
-          </p>
         </CardContent>
       </Card>
     </div>

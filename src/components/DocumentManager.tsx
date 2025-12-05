@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Trash2, Edit, Upload, FileText, Eye } from 'lucide-react';
+import { Trash2, Edit, Upload, FileText, Eye, Download } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { showSuccess, showError, showLoading, dismissToast } from '@/utils/toast';
 import { Skeleton } from './ui/skeleton';
@@ -167,6 +167,31 @@ const DocumentManager = () => {
     window.open(data.signedUrl, '_blank');
   };
 
+  const handleDownload = async (doc: Document) => {
+    const toastId = showLoading("Preparing download...");
+    try {
+      const { data, error } = await supabase.storage
+        .from('documents')
+        .download(doc.storage_path);
+
+      if (error) throw error;
+
+      const url = window.URL.createObjectURL(new Blob([data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', doc.name);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      dismissToast(toastId);
+      showSuccess("Download started!");
+    } catch (error: any) {
+      dismissToast(toastId);
+      showError(error.message || "Failed to download document.");
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -199,6 +224,7 @@ const DocumentManager = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="ghost" size="icon" onClick={() => handleView(doc)}><Eye className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" onClick={() => handleDownload(doc)}><Download className="h-4 w-4" /></Button>
                   <Button variant="ghost" size="icon" onClick={() => openRenameDialog(doc)}><Edit className="h-4 w-4" /></Button>
                   <Button variant="ghost" size="icon" onClick={() => openDeleteDialog(doc)}><Trash2 className="h-4 w-4 text-red-500" /></Button>
                 </div>
