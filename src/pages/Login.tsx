@@ -56,35 +56,22 @@ const Login = () => {
     setError(null);
     setMessage(null);
 
-    try {
-      // Check if email exists using our new edge function
-      const { data: checkData, error: checkError } = await supabase.functions.invoke('check-email-exists', {
-        body: { email: data.email },
-      });
+    const { error: signUpError } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+    });
 
-      if (checkError) throw checkError;
-
-      if (checkData.exists) {
+    if (signUpError) {
+      if (signUpError.message.includes('User already registered')) {
         setError("An account with this email already exists.");
-        setLoading(false);
-        return;
-      }
-
-      // If email doesn't exist, proceed with signup
-      const { error: signUpError } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-      });
-
-      if (signUpError) {
-        // This will catch the error from our database trigger for non-gmail emails
-        setError(signUpError.message);
+      } else if (signUpError.message.includes('Only @gmail.com addresses are allowed')) {
+        setError("Only @gmail.com addresses are allowed to sign up.");
       } else {
-        setMessage("Check your email for the confirmation link.");
-        signupForm.reset();
+        setError(signUpError.message);
       }
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
+    } else {
+      setMessage("Check your email for the confirmation link.");
+      signupForm.reset();
     }
 
     setLoading(false);
@@ -95,7 +82,7 @@ const Login = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-transparent">
       <Tabs defaultValue="signin" className="w-full max-w-md p-4 sm:p-0">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signin" onClick={() => { setError(null); setMessage(null); }}>Sign In</TabsTrigger>
