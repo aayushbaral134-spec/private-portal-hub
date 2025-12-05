@@ -28,6 +28,13 @@ const Login = () => {
             providers={[]}
             theme="light"
             view="sign_in"
+            localization={{
+              variables: {
+                sign_up: {
+                  link_text: '',
+                },
+              },
+            }}
           />
           <p className="text-center text-sm text-gray-600 mt-4">
             If you want to create an account, contact the owner.

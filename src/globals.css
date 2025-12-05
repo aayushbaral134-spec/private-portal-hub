@@ -99,8 +99,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Hide the Supabase sign-up link */
-div:has(> a[href="#sign-up"]) {
-  display: none;
-}
