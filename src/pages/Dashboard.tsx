@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthProvider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LinkManager from '@/components/LinkManager';
+import DocumentManager from '@/components/DocumentManager';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -27,14 +28,14 @@ const Dashboard = () => {
         <Tabs defaultValue="links" className="w-full">
           <TabsList>
             <TabsTrigger value="links">Links</TabsTrigger>
-            <TabsTrigger value="documents" disabled>Documents</TabsTrigger>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
             <TabsTrigger value="memos" disabled>Memos</TabsTrigger>
           </TabsList>
           <TabsContent value="links">
             <LinkManager />
           </TabsContent>
           <TabsContent value="documents">
-            {/* Documents feature will be added here */}
+            <DocumentManager />
           </TabsContent>
           <TabsContent value="memos">
             {/* Memos feature will be added here */}
