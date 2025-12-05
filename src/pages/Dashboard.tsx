@@ -7,6 +7,7 @@ import LinkManager from '@/components/LinkManager';
 import DocumentManager from '@/components/DocumentManager';
 import MemoManager from '@/components/MemoManager';
 import AccountSettings from '@/components/AccountSettings';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -23,6 +24,7 @@ const Dashboard = () => {
         <h1 className="text-3xl font-bold">Private Portal Hub</h1>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">{user?.email}</span>
+          <ThemeToggle />
           <Button onClick={handleLogout} variant="outline">Logout</Button>
         </div>
       </header>
