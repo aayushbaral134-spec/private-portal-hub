@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LinkManager from '@/components/LinkManager';
 import DocumentManager from '@/components/DocumentManager';
 import MemoManager from '@/components/MemoManager';
+import AccountSettings from '@/components/AccountSettings';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -31,6 +32,7 @@ const Dashboard = () => {
             <TabsTrigger value="links">Links</TabsTrigger>
             <TabsTrigger value="documents">Documents</TabsTrigger>
             <TabsTrigger value="memos">Memos</TabsTrigger>
+            <TabsTrigger value="account">Account</TabsTrigger>
           </TabsList>
           <TabsContent value="links">
             <LinkManager />
@@ -40,6 +42,9 @@ const Dashboard = () => {
           </TabsContent>
           <TabsContent value="memos">
             <MemoManager />
+          </TabsContent>
+          <TabsContent value="account">
+            <AccountSettings />
           </TabsContent>
         </Tabs>
       </main>
