@@ -101,6 +101,6 @@
 }
 
 /* Hide the Supabase sign-up link */
-div.supabase-auth-ui_ui-container > div:has(a[href="#sign-up"]) {
+div:has(> a[href="#sign-up"]) {
   display: none;
 }
