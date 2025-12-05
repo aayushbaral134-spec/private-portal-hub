@@ -29,6 +29,9 @@ const Login = () => {
             theme="light"
             view="sign_in"
           />
+          <p className="text-center text-sm text-gray-600 mt-4">
+            If you want to create an account, contact the owner.
+          </p>
         </CardContent>
       </Card>
     </div>

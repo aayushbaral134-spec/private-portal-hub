@@ -44,6 +44,7 @@ const DocumentManager = () => {
   const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
+  const [currentExtension, setCurrentExtension] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: documents, isLoading } = useQuery<Document[]>({
@@ -145,7 +146,12 @@ const DocumentManager = () => {
 
   const openRenameDialog = (doc: Document) => {
     setSelectedDoc(doc);
-    setValue('name', doc.name);
+    const parts = doc.name.split('.');
+    const extension = parts.length > 1 ? parts.pop() || '' : '';
+    const nameWithoutExt = parts.join('.');
+    
+    setValue('name', nameWithoutExt);
+    setCurrentExtension(extension);
     setIsRenameOpen(true);
   };
 
@@ -155,7 +161,8 @@ const DocumentManager = () => {
   };
 
   const onRenameSubmit = (data: RenameFormData) => {
-    renameMutation.mutate(data.name);
+    const newName = currentExtension ? `${data.name}.${currentExtension}` : data.name;
+    renameMutation.mutate(newName);
   };
 
   const handleView = async (doc: Document) => {
@@ -244,7 +251,10 @@ const DocumentManager = () => {
           <form onSubmit={handleSubmit(onRenameSubmit)} className="space-y-4">
             <div>
               <Label htmlFor="name">Document Name</Label>
-              <Input id="name" {...register('name')} />
+              <div className="flex items-center gap-2">
+                <Input id="name" {...register('name')} />
+                {currentExtension && <span className="text-gray-500 text-sm">.{currentExtension}</span>}
+              </div>
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
             </div>
             <DialogFooter>
